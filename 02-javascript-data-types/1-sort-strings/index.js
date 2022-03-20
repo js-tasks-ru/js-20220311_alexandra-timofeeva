@@ -9,10 +9,13 @@ export function sortStrings(arr, param = 'asc') {
   const options = {
     caseFirst: 'upper',
   };
+  const directions = {
+    asc : 1,
+    desc: -1
+  };
+  const direction = directions[param];
 
-  if (param === 'asc') {
-    return [...arr].sort( (a, b) => a.localeCompare(b, locales, options));
-  } else {
-    return arr.sort((a, b) => b.localeCompare(a, locales, options));
-  }
+  return [...arr].sort( (a, b) => {
+    return direction * a.localeCompare(b, locales, options)
+  });
 }
