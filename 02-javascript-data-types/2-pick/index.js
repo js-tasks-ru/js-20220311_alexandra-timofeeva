@@ -4,13 +4,14 @@
  * @param {...string} fields - the properties paths to pick
  * @returns {object} - returns the new object
  */
+
 export const pick = (obj, ...fields) => {
   const result = {};
-  Object.entries(obj).forEach(([key, value]) => {
+  for (const [key, value] of Object.entries(obj)) {
     if (fields.includes(key)) {
-      result[key] = key;
+      result[key] = value;
     }
-  });
+  }
   return result;
 };
 
@@ -18,10 +19,12 @@ export const pick = (obj, ...fields) => {
 //
 // export const pick = (obj, ...fields) => {
 //   const result = {};
-//   for (const [key, value] of Object.entries(obj)) {
+//   Object.entries(obj).forEach(([key, value]) => {
 //     if (fields.includes(key)) {
-//       result[key] = value;
+//       result[key] = key;
 //     }
-//   }
+//   });
 //   return result;
 // };
+
+
