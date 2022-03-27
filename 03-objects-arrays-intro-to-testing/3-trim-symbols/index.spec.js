@@ -1,7 +1,7 @@
 import { trimSymbols } from './index.js';
 
 describe('objects-arrays-intro-to-testing/trim-symbols', () => {
-  it('should remove an identical consecutive characters that exceed the specified size', () => {
+  it('should remove identical consecutive characters that exceed the specified size', () => {
     expect(trimSymbols('xxxaaxx', 1)).toEqual('xax');
     expect(trimSymbols('xxxaaaaab', 1)).toEqual('xab');
     expect(trimSymbols('eedaaad', 2)).toEqual('eedaad');
