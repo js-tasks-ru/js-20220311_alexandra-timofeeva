@@ -1,27 +1,5 @@
 export default class SortableTable {
   data = [];
-  static columnTitles = [
-    {
-      title: 'Image',
-      id: 'images'
-    },
-    {
-      title: 'Name',
-      id: 'title'
-    },
-    {
-      title: 'Quantity',
-      id: 'quantity'
-    },
-    {
-      title: 'Price',
-      id: 'price'
-    },
-    {
-      title: 'Sales',
-      id: 'sales'
-    }
-  ]
 
   headerConfig = []
   constructor(headerConfig = [], data = []) {
@@ -38,7 +16,7 @@ export default class SortableTable {
             ${this.getColumnTitles()}
           </div>
           <div data-element="body" class="sortable-table__body">
-
+            ${this.getRow()}
           </div>
           <div data-element="loading" class="loading-line sortable-table__loading-line"></div>
           <div data-element="emptyPlaceholder" class="sortable-table__empty-placeholder">
@@ -59,36 +37,40 @@ export default class SortableTable {
   }
 
   getColumnTitles() {
-    return SortableTable.columnTitles.map(
-      title => {
+    return this.headerConfig.map(
+      item => {
         return `
-        <div class="sortable-table__cell" data-id="${title.id}" data-sortable="false" data-order="asc">
-                <span>${title.title}</span>
+        <div class="sortable-table__cell" data-id="${item.id}" data-sortable="false" data-order="asc">
+                <span>${item.title}</span>
         </div>
       `;
       }
     ).join("");
   }
 
-  getRows() {
+  getRow() {
     return this.data.map(
       item => {
         return `
           <a href="/products/${item.id}" class="sortable-table__row">
-             ${this.getTableRow(item)}
+             ${this.getCell(item)}
           </a>
         `;
       }).join('')
   }
 
-  getTableRow(item) {
-    return this.data.map(
-      item => {
-        return `
+  getCell(item) {
+    // const cells = this.headerConfig.map(({id, template}) => {
+    //   return {
+    //     id, template
+    //   };
+    // });
 
-        `
-      }
-    )
+    return this.headerConfig.map(({id, template}) => {
+      return template
+        ? template(item[id])
+        : `<div class="sortable-table__cell">${item[id]}</div>`;
+    }).join('');
   }
 
   remove() {
