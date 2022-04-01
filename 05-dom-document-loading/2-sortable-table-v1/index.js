@@ -1,7 +1,7 @@
 export default class SortableTable {
   data = [];
-
   headerConfig = []
+
   constructor(headerConfig = [], data = []) {
     this.data = data;
     this.headerConfig = headerConfig;
@@ -73,6 +73,27 @@ export default class SortableTable {
     }).join('');
   }
 
+  sort(fieldValue, orderValue) {
+    const sortedData = this.sortData(fieldValue, orderValue);
+    return sortedData;
+  }
+
+  sortData(field, order) {
+    const locales = ['ru', 'en'];
+    const options = {
+      caseFirst: 'upper',
+    };
+    const directions = {
+      asc : 1,
+      desc: -1
+    };
+    const direction = directions[order];
+
+    return [...this.data].sort( (a, b) => {
+      return direction * a[field].localeCompare(b[field], locales, options)
+    });
+  }
+
   remove() {
     if (this.element) {
       this.element.remove();
@@ -83,5 +104,7 @@ export default class SortableTable {
     this.remove();
     this.element = null;
   }
+
+
 }
 
