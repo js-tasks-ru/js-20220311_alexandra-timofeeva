@@ -13,10 +13,6 @@ export default class NotificationMessage {
 
   getTemplate() {
     return `
-      <div style="position: fixed; top: 0; right: 0;">
-        <button id="btn1">Show simple message!</button>
-      </div>
-
       <div class="notification '${this.show(this.type)}'" style=${this.duration}>
         <div class="timer">${this.duration}</div>
         <div class="inner-wrapper">
@@ -32,8 +28,7 @@ export default class NotificationMessage {
   render() {
     this.element = document.createElement('div');
     this.element.innerHTML = this.getTemplate();
-    this.element = element.firstElementChild;
-    this.element = element;
+    this.element = this.element.firstElementChild;
   }
 
   show(type = '') {
