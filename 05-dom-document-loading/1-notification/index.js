@@ -1,22 +1,24 @@
 export default class NotificationMessage {
   element;
-  message = '';
-  duration = 0;
-  type = '';
+  timerId;
 
-  constructor(message = '', duration = 0, type = '') {
+  constructor(message = '', {
+    duration = 1000,
+    type = ''
+  } = {}) {
     this.message = message;
     this.duration = duration;
+
     this.type = type;
     this.render();
   }
 
   getTemplate() {
     return `
-      <div class="notification '${this.show(this.type)}'" style=${this.duration}>
-        <div class="timer">${this.duration}</div>
+      <div class="notification ${this.show(this.type)}" style="--value:${Math.floor(this.duration / 1000)}s">
+        <div class="timer"></div>
         <div class="inner-wrapper">
-          <div class="notification-header">${this.type}</div>
+          <div class="notification-header '${this.show(this.type)}'"></div>
           <div class="notification-body">
             ${this.message}
           </div>
@@ -31,15 +33,21 @@ export default class NotificationMessage {
     this.element = this.element.firstElementChild;
   }
 
-  show(type = '') {
+  show() {
     if (this.type === 'success') {
-      console.log(this.element);
-      this.element.addClass('.success');
-      return this.message; }
-    else if (this.type === 'error') {
-      return err;
+      this.timerId = setTimeout(() => this.removeNotificationMessage(), this.duration);
+      return document.getElementsByClassName('notification').className = ' success';
     }
+    else if (this.type === 'error') {
+      return document.getElementsByClassName('notification').className = ' error';
+    }
+  }
 
+  removeNotificationMessage() {
+    if (this.timerId) {
+      clearTimeout(this.timerId);
+      this.remove();
+    }
   }
 
   remove() {
@@ -51,7 +59,5 @@ export default class NotificationMessage {
   destroy() {
     this.remove();
     this.element = null;
-    this.subElements = {};
   }
-
 }
